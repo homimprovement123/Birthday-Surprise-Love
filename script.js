@@ -1,74 +1,83 @@
-document.addEventListener("DOMContentLoaded", function () {
+const gift = document.getElementById("gift");
+const finalMessage = document.getElementById("finalMessage");
 
-  const gift = document.getElementById("gift");
-  const hiddenMessage = document.getElementById("hiddenMessage");
+if (gift && finalMessage) {
 
-  if (gift && hiddenMessage) {
+  gift.addEventListener("click", () => {
 
-    gift.addEventListener("click", function () {
+    gift.classList.add("opened");
 
-      hiddenMessage.classList.add("show");
+    finalMessage.classList.add("show");
 
-      gift.style.transform = "scale(0.9)";
+    // Birthday confetti
+    for (let i = 0; i < 45; i++) {
 
-      createConfetti();
+      const piece = document.createElement("span");
 
-      setTimeout(function () {
-        hiddenMessage.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-      }, 200);
+      piece.textContent =
+        ["♥", "✦", "✧", "♡", "★"]
+        [Math.floor(Math.random() * 5)];
 
-    });
-  }
+      piece.style.position = "fixed";
 
-  function createConfetti() {
+      piece.style.left =
+        Math.random() * 100 + "vw";
 
-    const symbols = ["✦", "✧", "♥", "★", "♡"];
+      piece.style.top = "-20px";
 
-    for (let i = 0; i < 35; i++) {
+      piece.style.zIndex = "9999";
 
-      const confetti = document.createElement("div");
+      piece.style.pointerEvents = "none";
 
-      confetti.innerHTML =
-        symbols[Math.floor(Math.random() * symbols.length)];
+      piece.style.fontSize =
+        (12 + Math.random() * 15) + "px";
 
-      confetti.style.position = "fixed";
-      confetti.style.left = Math.random() * 100 + "vw";
-      confetti.style.top = "-20px";
-      confetti.style.fontSize = Math.random() * 15 + 12 + "px";
-      confetti.style.zIndex = "9999";
-      confetti.style.pointerEvents = "none";
+      piece.style.color = "#e83f7d";
 
-      document.body.appendChild(confetti);
+      document.body.appendChild(piece);
 
-      const duration = Math.random() * 2000 + 2000;
+      const duration =
+        1800 + Math.random() * 1800;
 
-      confetti.animate(
+      piece.animate(
         [
           {
-            transform: "translateY(0) rotate(0deg)",
+            transform:
+              "translateY(0) rotate(0deg)",
+
             opacity: 1
           },
+
           {
             transform:
-              "translateY(110vh) rotate(" +
-              Math.random() * 720 +
-              "deg)",
+              `translateY(110vh) rotate(${Math.random() * 720 - 360}deg)`,
+
             opacity: 0
           }
         ],
+
         {
           duration: duration,
+
           easing: "ease-out"
         }
       );
 
-      setTimeout(function () {
-        confetti.remove();
+      setTimeout(() => {
+        piece.remove();
       }, duration);
-    }
-  }
 
-});
+    }
+
+    setTimeout(() => {
+
+      finalMessage.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }, 250);
+
+  });
+
+}
